@@ -1,14 +1,12 @@
 all: main
-main: IO.o matriz.o main.o 
-	gcc -o main IO.o matriz.o gauss.o main.o
-main.o: gauss.o interp.o teste_interp.c
-	gcc -o main.o -c teste_interp.c -W -Wall -ansi -pedantic
-matriz.o: matriz.c matriz.h
+main: IO.o teste_mmq.c mmq.o matriz.o gauss.o
+	gcc -o main  teste_mmq.c mmq.o matriz.o gauss.o -W -Wall -ansi -pedantic
+matriz.o: matriz.c
 	gcc -o matriz.o -c matriz.c -W -Wall -ansi -pedantic
-interp.o: IO.o gauss.o matriz.o interp.c interp.h
-	gcc -o interp.o -c interp.c -W -Wall -ansi -pedantic
-gauss.o: IO.o matriz.o gauss.c gauss.h
-	gcc -o gauss.o -c gauss.c -W -Wall -ansi -pedantic
+mmq.o:  gauss.o mmq.c IO.o 
+	gcc -o mmq.o -c mmq.c gauss.o IO.o -W -Wall -ansi -pedantic
+gauss.o: matriz.o gauss.c 
+	gcc -o gauss.o -c gauss.c matriz.o -W -Wall -ansi -pedantic
 IO.o: IO.c IO.h
 	gcc -o IO.o -c IO.c -W -Wall -ansi -pedantic
 clean:
